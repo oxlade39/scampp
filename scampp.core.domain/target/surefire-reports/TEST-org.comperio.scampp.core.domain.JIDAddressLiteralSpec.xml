@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="0.056" errors="0" skipped="1" tests="1" name="org.comperio.scampp.core.domain.JIDAddressLiteralSpec">
+  <properties>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/i386"/>
+    <property name="java.vm.version" value="11.0-b17"/>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."/>
+    <property name="java.vendor.url" value="http://java.sun.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="OpenJDK Client VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="GB"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain"/>
+    <property name="java.runtime.version" value="1.6.0-internal-landonf_17_may_2009_13_58-b00"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="basedir" value="/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain"/>
+    <property name="java.endorsed.dirs" value="/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/endorsed"/>
+    <property name="os.arch" value="i386"/>
+    <property name="surefire.real.class.path" value="/var/tmp/surefirebooter7404030721246678895.jar"/>
+    <property name="java.io.tmpdir" value="/var/tmp/"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="os.name" value="Darwin"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib/i386:/lib:/usr/lib"/>
+    <property name="surefire.test.class.path" value="/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain/target/test-classes:/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain/target/classes:/Users/danoxlade/.m2/repository/org/scala-lang/scala-library/2.7.2/scala-library-2.7.2.jar:/Users/danoxlade/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/danoxlade/.m2/repository/org/scalatest/scalatest/1.0/scalatest-1.0.jar:/Users/danoxlade/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar:"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="50.0"/>
+    <property name="sun.management.compiler" value="HotSpot Client Compiler"/>
+    <property name="os.version" value="9.8.0"/>
+    <property name="user.home" value="/Users/danoxlade"/>
+    <property name="user.timezone" value=""/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="1.6"/>
+    <property name="user.name" value="danoxlade"/>
+    <property name="java.class.path" value="/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain/target/test-classes:/Users/danoxlade/proj/scala/xmpp/scampp/scampp/scampp.core.domain/target/classes:/Users/danoxlade/.m2/repository/org/scala-lang/scala-library/2.7.2/scala-library-2.7.2.jar:/Users/danoxlade/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/danoxlade/.m2/repository/org/scalatest/scalatest/1.0/scalatest-1.0.jar:/Users/danoxlade/.m2/repository/commons-lang/commons-lang/2.4/commons-lang-2.4.jar:"/>
+    <property name="java.vm.specification.version" value="1.0"/>
+    <property name="sun.arch.data.model" value="32"/>
+    <property name="java.home" value="/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre"/>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="user.language" value="en"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.6.0-internal"/>
+    <property name="java.ext.dirs" value="/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/ext:/usr/java/packages/lib/ext"/>
+    <property name="sun.boot.class.path" value="/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/resources.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/rt.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/sunrsasign.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/jsse.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/jce.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/lib/charsets.jar:/Users/danoxlade/dev/java/openjdk6-b16-24_apr_2009-r1/jre/classes"/>
+    <property name="java.vendor" value="Sun Microsystems Inc."/>
+    <property name="localRepository" value="/Users/danoxlade/.m2/repository"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase time="0.005" classname="org.comperio.scampp.core.domain.JIDAddressLiteralSpec" name="A JIDDomain should be an IPv4address or an IPv6address">
+    <skipped/>
+  </testcase>
+</testsuite>
