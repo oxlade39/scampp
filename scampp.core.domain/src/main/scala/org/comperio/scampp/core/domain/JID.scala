@@ -1,4 +1,4 @@
-package org.comperio.scampp.core.domain;
+package org.comperio.scampp.core.domain
 
 object JID {
 
@@ -13,15 +13,22 @@ object JID {
   }
 
 
-}
+  object JIDUtils {
 
-object JIDValidator {
+    class JIDStringWrapper(s : String) {
+      def isJID = s match {
+        case JID(node, rest) => true
+        case _ => false
+      }
 
-  def isJID(s : String) = s match {
+      def notAJID = !isJID
+      def isAJID = isJID
 
-    case JID(node, rest) => true
-    case _ => false
+    }
 
+    implicit def stringWrapper(s : String) = new JIDStringWrapper(s)
   }
 
 }
+
+
