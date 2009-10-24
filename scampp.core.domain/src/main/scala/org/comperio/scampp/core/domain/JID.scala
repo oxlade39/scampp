@@ -1,12 +1,27 @@
 package org.comperio.scampp.core.domain;
 
-case class JID(jid : String) {
-  val MAX_SIZE = 3071
-  val size = jid.getBytes().length
+object JID {
 
-  if(size > MAX_SIZE)
-    throw new IllegalArgumentException("Maximum acceptabe size is "+MAX_SIZE+" found "+size)
+  def apply(node : String, rest : String) = {
+    node + "@" + rest
+  }
+
+  def unapply(s: String): Option[(String, String)] = {
+    val parts = s split "@"
+    if(parts.length == 2) Some(parts(0), parts(1))
+    else None
+  }
 
 
+}
+
+object JIDValidator {
+
+  def isJID(s : String) = s match {
+
+    case JID(node, rest) => true
+    case _ => false
+
+  }
 
 }

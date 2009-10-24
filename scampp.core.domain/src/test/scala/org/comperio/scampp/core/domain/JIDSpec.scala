@@ -16,16 +16,13 @@ class JIDSpec extends FlatSpec with ShouldMatchers {
   val MAX_LENGTH = 3071
 
   "A JID" should "have a total maximum length of less than " + MAX_LENGTH + " bytes" in {
-    new JID("dano@org.comperio/resource")
+    JIDValidator.isJID("dano@org.comperio/resource") should be (true)
   }
 
-  it should "throw IllegalArgumentException when constructed with total length greater than " +MAX_LENGTH+ " bytes" in {
-    intercept[IllegalArgumentException] {
-      // FIXME this is incorrect, it generates a string of MAX_LENGTH characters not bytes!!!!!
-      val badString: String = RandomStringUtils.random(MAX_LENGTH + 1)
-      new JID(badString)
-    }
-
+  it should "not match string with total length greater than " +MAX_LENGTH+ " bytes" in {
+    // FIXME this is incorrect, it generates a string of MAX_LENGTH characters not bytes!!!!!
+    val badString: String = RandomStringUtils.random(MAX_LENGTH + 1)
+    JIDValidator.isJID(badString) should be (false)
   }
 
   it should "be of the following format: [ node '@' ] JIDDomain [ '/' resource ]" is (pending)
