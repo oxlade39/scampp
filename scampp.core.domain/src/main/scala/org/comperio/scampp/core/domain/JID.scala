@@ -1,20 +1,15 @@
 package org.comperio.scampp.core.domain
 
-case class JID(n : String, d : String, r : String){
-  val node = {
-    if(n == null) null
-    else n.replace("@", "")
-  }
+case class JID(n : Option[String], d : String, r : Option[String]){
+
+  val node = n.map { s => s.replace("@", "") }
 
   val domain = d
 
-  val resource = {
-    if(r == null) null
-    else r.replace("/", "")
-  }
+  val resource = r.map { s => s.replace("/", "") }
 
   override def toString = {
-    node + "@" + domain + "/" + resource
+    n.getOrElse("") + domain + r.getOrElse("")
   }
 
 }
@@ -23,13 +18,16 @@ object JIDExtractor {
   val NODE_DOMAIN_RESOURCE_REGEXP = """(\w+@)?([\w+\d*\.]+\w+\d*)(/\w+)?""".r
   val MAX_LENGTH = 3071
 
-  def apply(jid: JID) : String = {
-    jid.toString
+  def apply(jid: Option[JID]) : String = {
+    jid.getOrElse("").toString
   }
 
   def unapply(s: String): Option[JID] = {
     s match {
-      case NODE_DOMAIN_RESOURCE_REGEXP(node, domain, resource) => Some(new JID(node, domain, resource))
+      case NODE_DOMAIN_RESOURCE_REGEXP(null, domain, null) => Some(new JID(None, domain, None))
+      case NODE_DOMAIN_RESOURCE_REGEXP(null, domain, resource) => Some(new JID(None, domain, Some(resource)))
+      case NODE_DOMAIN_RESOURCE_REGEXP(node, domain, null) => Some(new JID(Some(node), domain, None))
+      case NODE_DOMAIN_RESOURCE_REGEXP(node, domain, resource) => Some(new JID(Some(node), domain, Some(resource)))
       case _ => None
     }
 
