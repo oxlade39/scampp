@@ -4,7 +4,7 @@
     <groupId>org.comperio</groupId>
     <artifactId>scampp.parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>scampp parent pom</name>
     <url>http://maven.apache.org</url>
 
