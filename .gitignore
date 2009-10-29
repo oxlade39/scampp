@@ -6,4 +6,5 @@
 *.ipr
 *.iws
 *.class
-target/**/*
+target/
+/**/target
