@@ -14,7 +14,6 @@ import org.specs.runner._
  * see http://www.ietf.org/rfc/rfc3920.txt
  */
 class jidTest extends JUnit4(JIDSpec)
-
 object JIDSpec extends Specification {
   val MAX_LENGTH = 3071
   val JID_FORMAT = "[ node '@' ] JIDDomain [ '/' resource ]"
