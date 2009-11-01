@@ -3,9 +3,8 @@ package org.comperio.scampp.core.domain
 import org.apache.commons.lang.RandomStringUtils
 import java.lang.String
 import junit.runner.RunWith
+import org.specs.matcher.xUnit
 //import org.scalatest.junit.JUnitRunner
-import org.junit.Assert.assertTrue
-import org.junit.Assert.assertFalse
 import org.comperio.scampp.core.domain.JIDUtils.stringWrapper
 import org.specs._
 import org.specs.runner._
@@ -14,7 +13,7 @@ import org.specs.runner._
  * see http://www.ietf.org/rfc/rfc3920.txt
  */
 class jidTest extends JUnit4(JIDSpec)
-object JIDSpec extends Specification {
+object JIDSpec extends Specification with xUnit{
   val MAX_LENGTH = 3071
   val JID_FORMAT = "[ node '@' ] JIDDomain [ '/' resource ]"
 
