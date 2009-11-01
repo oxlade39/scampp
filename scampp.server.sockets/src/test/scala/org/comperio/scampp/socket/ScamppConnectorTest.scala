@@ -2,9 +2,10 @@ package org.comperio.scampp.socket
 
 import actors.Actor._
 import actors.{Actor}
-import java.net.Socket
+import java.net.{ConnectException, Socket}
 import org.specs._
 import org.specs.runner._
+import org.specs.matcher._
 import org.junit.Assert._
 
 
@@ -13,7 +14,6 @@ object ScamppConnectorSpec extends Specification {
 
   var scamppConnector = DefaultScamppConnector
   doBeforeSpec { scamppConnector.start }
-  doAfterSpec { sendDefaultKill }
 
   "A DefaultScamppConnector" should {
     "accept connections on port 5222" in {
@@ -41,12 +41,11 @@ object ScamppConnectorSpec extends Specification {
       Thread.sleep(50L)
       notified must be (true)
     }
+    "exit cleanly when shutdown is called" in {
+      scamppConnector.shutdown
+      Thread.sleep(100L)
+      new Socket("localhost", 5222) must throwA[ConnectException]
+    }
   }
-
-  def sendDefaultKill() {
-    scamppConnector ! ScamppExit("test exit")
-    new Socket("localhost", 5222).close
-  }
-
 }
 

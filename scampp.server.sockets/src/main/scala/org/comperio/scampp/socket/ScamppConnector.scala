@@ -18,6 +18,7 @@ abstract class ScamppConnector extends Actor{
       receiveWithin(0) {
         case ScamppExit(m) => {
           println("received ScamppExit")
+          serverSocket.close
           exit(m)
         }
         case _ => {}
@@ -35,6 +36,12 @@ abstract class ScamppConnector extends Actor{
     }
     actor.start()
     addConnectionListener(actor)
+  }
+
+  def shutdown : Unit = {
+    println("shutdown called")
+    this ! ScamppExit("shutdown called")
+    new Socket("localhost", port).close
   }
 }
 
