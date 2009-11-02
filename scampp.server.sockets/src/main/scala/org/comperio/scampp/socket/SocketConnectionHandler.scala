@@ -2,6 +2,7 @@ package org.comperio.scampp.socket
 
 
 import actors.Actor
+import actors.Actor._
 import java.io.{BufferedReader, InputStreamReader}
 /**
  * Created by IntelliJ IDEA.
@@ -18,13 +19,12 @@ object SocketConnectionHandler extends Actor {
         case SocketConnected(socket) => {
           val br = new BufferedReader(new InputStreamReader(socket.getInputStream))
 
-          x match {
-            case p: PresenceMessage => presenceMessageHandler ! p
-            case _ => sendBadAck(socket.getOutputStream)
-          }
-
-
+//          x match {
+//            case p: PresenceMessage => presenceMessageHandler ! p
+//            case _ => sendBadAck(socket.getOutputStream)
+//          }
           ""
+
         }
       }
     }
