@@ -14,19 +14,18 @@ object ScamppConnectorSpec extends Specification {
 
   var scamppConnector = DefaultScamppConnector
   doBeforeSpec { scamppConnector.start }
+  doAfterSpec { scamppConnector ! ScamppExit("shutdown") }
 
   "A DefaultScamppConnector" should {
     "accept connections on port 5222" in {
       val socket = new Socket("localhost", 5222)
-      val out = socket.getOutputStream()
-      out.flush
-      out.close
       socket.isConnected() must be (true)
     }
+
     "publish a SocketConnected event when a new connection is established" in {
       var notified = false
 
-      scamppConnector.listen {
+      scamppConnector.addConnectionListener {
         react {
           case SocketConnected(socket) => {
             notified = true
@@ -41,11 +40,11 @@ object ScamppConnectorSpec extends Specification {
       Thread.sleep(50L)
       notified must be (true)
     }
+
     "exit cleanly when shutdown is called" in {
-      scamppConnector.shutdown
+      scamppConnector ! ScamppExit("shutdown")
       Thread.sleep(100L)
       new Socket("localhost", 5222) must throwA[ConnectException]
     }
   }
 }
-
