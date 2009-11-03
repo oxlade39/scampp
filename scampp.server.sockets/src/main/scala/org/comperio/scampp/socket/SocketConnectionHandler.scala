@@ -1,8 +1,8 @@
 package org.comperio.scampp.socket
 
 
-import actors.Actor
 import actors.Actor._
+import actors.{Exit, Actor}
 import java.io.{BufferedReader, InputStreamReader}
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +17,7 @@ object SocketConnectionHandler extends Actor {
     loop {
       react {
         case SocketConnected(socket) => {
+          println("received socketconnected")
           val br = new BufferedReader(new InputStreamReader(socket.getInputStream))
 
 //          x match {

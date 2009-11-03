@@ -1,6 +1,7 @@
 package org.comperio.scampp.socket
 
 import actors.Actor._
+import actors.Exit
 import java.io.{ByteArrayOutputStream, ByteArrayInputStream}
 import java.net.Socket
 import specs.mock.{JMocker, ClassMocker, Mockito}
@@ -17,26 +18,34 @@ import specs.Specification
 
 class SocketConnectionHandlerTest extends JUnit4(SocketConnectionHandlerSpec)
 object SocketConnectionHandlerSpec extends Specification with JMocker with ClassMocker {
-   val handler = SocketConnectionHandler
+  val handler = SocketConnectionHandler
 
-   "A presence message handler" should {
-     "read the message from the socket" in {
-        val socket = mock[Socket]
-        val presenceMessageHandler = actor {
-           react {
-             case _ => {
-              handler ! "<response />"
-             }
-           }
-        }
-        val is = new ByteArrayInputStream("<presence message=\"foo\" />\n".getBytes())
-        val os = new ByteArrayOutputStream()
-        expect {
-          one(socket).getInputStream() will returnValue(is)
-          one(socket).getOutputStream() will returnValue(os)
-        }
-        handler ! SocketConnected(socket)
-        new String(os.toByteArray) must be ("<response />")
-     }
-   }
+  doBeforeSpec(handler.start)
+  doAfterSpec(presenceMessageHandler ! "forced shutdown")
+
+  val presenceMessageHandler = actor {
+    link(handler)
+    react {
+      case _ => {
+        println("received stuff")
+        handler ! "<response />"
+        exit("byebye")
+      }
+    }
+  }
+
+  "A presence message handler" should {
+    "read the message from the socket" in {
+      val socket = mock[Socket]
+      val is = new ByteArrayInputStream("<presence message=\"foo\" />\n".getBytes())
+      val os = new ByteArrayOutputStream()
+      expect {
+        one(socket).getInputStream() will returnValue(is)
+        one(socket).getOutputStream() will returnValue(os)
+      }
+      handler ! SocketConnected(socket)
+      Thread.sleep(100)
+      new String(os.toByteArray) must be("<response />").orSkipExample
+    }
+  }
 }
