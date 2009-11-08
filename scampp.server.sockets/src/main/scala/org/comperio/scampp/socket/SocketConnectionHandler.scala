@@ -3,14 +3,8 @@ package org.comperio.scampp.socket
 
 import actors.Actor._
 import actors.{Exit, Actor}
-import java.io.{BufferedReader, InputStreamReader}
-/**
- * Created by IntelliJ IDEA.
- * User: nfma
- * Date: Nov 2, 2009
- * Time: 9:18:22 PM
- * To change this template use File | Settings | File Templates.
- */
+import java.io.{OutputStreamWriter, BufferedReader, InputStreamReader}
+import scala.xml.XML
 
 object SocketConnectionHandler extends Actor {
   def act() {
@@ -18,15 +12,22 @@ object SocketConnectionHandler extends Actor {
       react {
         case SocketConnected(socket) => {
           println("received socketconnected")
-          val br = new BufferedReader(new InputStreamReader(socket.getInputStream))
-
-//          x match {
-//            case p: PresenceMessage => presenceMessageHandler ! p
-//            case _ => sendBadAck(socket.getOutputStream)
-//          }
+          val xml = XML.load(socket.getInputStream)
+          val os = socket.getOutputStream
+          println(xml)
+          xml match {
+            case <stream:stream>{body @ _*}</stream:stream> =>
+              val writer = new OutputStreamWriter(os)
+              XML.write(writer, <response/>, "UTF-8", false, null)
+              writer.flush
+              writer.close
+              println("woot flushed")
+            case _ => socket.close
+          }
           ""
 
         }
+        case unknown @ _ => println("received wtf unknown: "+unknown) 
       }
     }
   }

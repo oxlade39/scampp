@@ -27,25 +27,27 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
     link(handler)
     react {
       case _ => {
-        println("received stuff")
-        handler ! "<response />"
+//        println("received stuff")
+        handler ! <bye />
         exit("byebye")
       }
     }
   }
 
-  "A presence message handler" should {
+  "A stream message handler" should {
     "read the message from the socket" in {
       val socket = mock[Socket]
-      val is = new ByteArrayInputStream("<presence message=\"foo\" />\n".getBytes())
+      val is = new ByteArrayInputStream("""<stream:stream
+        xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams'
+                 to='example.com' version='1.0' />""".getBytes())
       val os = new ByteArrayOutputStream()
       expect {
         one(socket).getInputStream() will returnValue(is)
         one(socket).getOutputStream() will returnValue(os)
       }
       handler ! SocketConnected(socket)
-      Thread.sleep(100)
-      new String(os.toByteArray) must be("<response />").orSkipExample
+      Thread.sleep(1000)
+      new String(os.toByteArray) must_== <response/>.toString
     }
   }
 }
