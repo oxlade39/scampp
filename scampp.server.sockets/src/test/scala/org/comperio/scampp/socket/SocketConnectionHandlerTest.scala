@@ -2,6 +2,7 @@ package org.comperio.scampp.socket
 
 import actors.Actor._
 import actors.Exit
+import collection.mutable.ArrayBuffer
 import java.io.{ByteArrayOutputStream, ByteArrayInputStream}
 import java.net.Socket
 import specs.mock.{JMocker, ClassMocker, Mockito}
@@ -35,19 +36,31 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
   }
 
   "A stream message handler" should {
-    "read the message from the socket" in {
-      val socket = mock[Socket]
-      val is = new ByteArrayInputStream("""<stream:stream
+    shareVariables()
+    val socket = mock[Socket]
+    "respond to a client stream initialisation message and ..." in {
+      val is = new ByteArrayInputStream(<stream:stream
         xmlns='jabber:client' xmlns:stream='http://etherx.jabber.org/streams'
-                 to='example.com' version='1.0' />""".getBytes())
+                 to='scampp.com' version='1.0' />.toString.getBytes())
       val os = new ByteArrayOutputStream()
       expect {
         one(socket).getInputStream() will returnValue(is)
         one(socket).getOutputStream() will returnValue(os)
       }
       handler ! SocketConnected(socket)
-      Thread.sleep(1000)
-      new String(os.toByteArray) must_== <response/>.toString
+      Thread.sleep(100)
+      new String(os.toByteArray).replaceAll(">\\s+<", "><").replaceAll("\\s+", " ") must_==
+              (<stream:stream xmlns="jabber:client" xmlns:stream='http://etherx.jabber.org/streams' id='c2s_123'
+              from='example.com' version='1.0'/>.toString +
+              <stream:features>
+                <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
+                  <required/>
+                </starttls>
+                <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+                  <mechanism>DIGEST-MD5</mechanism>
+                  <mechanism>PLAIN</mechanism>
+                </mechanisms>
+              </stream:features>.toString).replaceAll(">\\s+<", "><").replaceAll("\\s+", " ")
     }
   }
 }
