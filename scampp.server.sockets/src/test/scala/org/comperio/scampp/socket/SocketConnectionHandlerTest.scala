@@ -5,6 +5,7 @@ import actors.Exit
 import collection.mutable.ArrayBuffer
 import java.io.{ByteArrayOutputStream, ByteArrayInputStream}
 import java.net.Socket
+import specs.matcher.Matcher
 import specs.mock.{JMocker, ClassMocker, Mockito}
 import specs.runner.JUnit4
 import specs.Specification
@@ -49,8 +50,8 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
       }
       handler ! SocketConnected(socket)
       Thread.sleep(100)
-      new String(os.toByteArray).replaceAll(">\\s+<", "><").replaceAll("\\s+", " ") must_==
-              (<stream:stream xmlns="jabber:client" xmlns:stream='http://etherx.jabber.org/streams' id='c2s_123'
+      new String(os.toByteArray) must matchXml(
+              <stream:stream xmlns="jabber:client" xmlns:stream='http://etherx.jabber.org/streams' id='c2s_123'
               from='example.com' version='1.0'/>.toString +
               <stream:features>
                 <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
@@ -60,7 +61,17 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
                   <mechanism>DIGEST-MD5</mechanism>
                   <mechanism>PLAIN</mechanism>
                 </mechanisms>
-              </stream:features>.toString).replaceAll(">\\s+<", "><").replaceAll("\\s+", " ")
+              </stream:features>.toString)
     }
+  }
+
+  def matchXml(a: String) = new Matcher[String] {
+    class StringWrapper(s: String) {
+      def removeBadSpaces = s.replaceAll(">\\s+<", "><").replaceAll("\\s+", " ")
+    }
+
+    implicit def stringWrapper(s: String) = new StringWrapper(s)
+
+    def apply(v: => String) = (v.removeBadSpaces == a.removeBadSpaces, "okMessage", "koMessage")
   }
 }
