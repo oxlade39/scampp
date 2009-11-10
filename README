@@ -13,5 +13,6 @@ Smack and OpenFire code: http://www.igniterealtime.org/downloads/source.jsp
 
 TODO:
 
-have a look at the spec messages
 think of a way to pool actors accepting connections
+create value objects for the xml, populating with custom values
+implement the TLS mechanism
