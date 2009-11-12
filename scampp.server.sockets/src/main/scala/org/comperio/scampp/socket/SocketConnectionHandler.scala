@@ -1,6 +1,6 @@
 package org.comperio.scampp.socket
 
-
+import org.comperio.scampp.core.xml.stream.Stream
 import actors.Actor._
 import actors.{Exit, Actor}
 import java.io.{OutputStreamWriter, BufferedReader, InputStreamReader}
@@ -8,12 +8,6 @@ import scala.xml.XML
 
 object SocketConnectionHandler extends Actor {
 
-  val response = <stream:stream
-       xmlns='jabber:client'
-       xmlns:stream='http://etherx.jabber.org/streams'
-       id='c2s_123'
-       from='example.com'
-       version='1.0' />
   val features =
   <stream:features>
      <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
@@ -34,7 +28,7 @@ object SocketConnectionHandler extends Actor {
           xml match {
             case <stream:stream>{body @ _*}</stream:stream> =>
               val writer = new OutputStreamWriter(os)
-              XML.write(writer, response, "UTF-8", false, null)
+              XML.write(writer, new Stream("id", "scampp.com").toXml, "UTF-8", false, null)
               XML.write(writer, features, "UTF-8", false, null)
               writer.flush
               writer.close

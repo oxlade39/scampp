@@ -1,22 +1,15 @@
 package org.comperio.scampp.socket
 
-import actors.Actor._
-import actors.Exit
-import collection.mutable.ArrayBuffer
+import scala.actors.Actor._
+import scala.xml.{Node, XML, NodeSeq}
+
+import org.specs.matcher.Matcher
 import java.io.{ByteArrayOutputStream, ByteArrayInputStream}
 import java.net.Socket
-import specs.matcher.Matcher
-import specs.mock.{JMocker, ClassMocker, Mockito}
-import specs.runner.JUnit4
-import specs.Specification
-
-/**
- * Created by IntelliJ IDEA.
- * User: nfma
- * Date: Nov 2, 2009
- * Time: 9:09:36 PM
- * To change this template use File | Settings | File Templates.
- */
+import org.specs.mock.{ClassMocker, JMocker}
+import org.specs.Specification
+import org.specs.runner.JUnit4
+import org.comperio.scampp.core.xml.stream.{Features, Stream}
 
 class SocketConnectionHandlerTest extends JUnit4(SocketConnectionHandlerSpec)
 object SocketConnectionHandlerSpec extends Specification with JMocker with ClassMocker {
@@ -29,7 +22,6 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
     link(handler)
     react {
       case _ => {
-//        println("received stuff")
         handler ! <bye />
         exit("byebye")
       }
@@ -50,20 +42,27 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
       }
       handler ! SocketConnected(socket)
       Thread.sleep(100)
-      new String(os.toByteArray) must matchXml(
-              <stream:stream xmlns="jabber:client" xmlns:stream='http://etherx.jabber.org/streams' id='c2s_123'
-              from='example.com' version='1.0'/>.toString +
-              <stream:features>
-                <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
-                  <required/>
-                </starttls>
-                <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
-                  <mechanism>DIGEST-MD5</mechanism>
-                  <mechanism>PLAIN</mechanism>
-                </mechanisms>
-              </stream:features>.toString)
+
+      val returnedXml = XML.loadString("<parent>"+new String(os.toByteArray)+"</parent>")
+      val stream = returnedXml.child(0)
+      val features = returnedXml.child(1)
+
+      stream must equalIgnoreSpace(new Stream("id", "scampp.com").toXml)
+      features must equalIgnoreSpace(new Features("DIGEST-MD5" :: "PLAIN" :: Nil).toXml) 
+
+                <stream:features>
+                  <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
+                      <required/>
+                  </starttls>
+                  <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+                    <mechanism>DIGEST-MD5</mechanism>
+                    <mechanism>PLAIN</mechanism>
+                  </mechanisms>
+                </stream:features>
     }
   }
+
+  def wrapNodeSequence(sequence: String) : String = <parent>.toString + sequence + </parent>.toString
 
   def matchXml(a: String) = new Matcher[String] {
     class StringWrapper(s: String) {

@@ -13,4 +13,11 @@
   <inceptionYear>2008</inceptionYear>
   <name>scampp xmpp actors based server sockets framework</name>    
 
+    <dependencies>
+        <dependency>
+            <artifactId>scampp.core.domain</artifactId>
+            <groupId>org.comperio</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
