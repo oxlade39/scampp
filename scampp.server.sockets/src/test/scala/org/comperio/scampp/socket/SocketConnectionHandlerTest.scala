@@ -48,29 +48,7 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
       val features = returnedXml.child(1)
 
       stream must equalIgnoreSpace(new Stream("id", "scampp.com").toXml)
-      features must equalIgnoreSpace(new Features("DIGEST-MD5" :: "PLAIN" :: Nil).toXml) 
-
-                <stream:features>
-                  <starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'>
-                      <required/>
-                  </starttls>
-                  <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
-                    <mechanism>DIGEST-MD5</mechanism>
-                    <mechanism>PLAIN</mechanism>
-                  </mechanisms>
-                </stream:features>
+      features must equalIgnoreSpace(new Features("DIGEST-MD5" :: "PLAIN" :: Nil).toXml)
     }
-  }
-
-  def wrapNodeSequence(sequence: String) : String = <parent>.toString + sequence + </parent>.toString
-
-  def matchXml(a: String) = new Matcher[String] {
-    class StringWrapper(s: String) {
-      def removeBadSpaces = s.replaceAll(">\\s+<", "><").replaceAll("\\s+", " ")
-    }
-
-    implicit def stringWrapper(s: String) = new StringWrapper(s)
-
-    def apply(v: => String) = (v.removeBadSpaces == a.removeBadSpaces, "okMessage", "koMessage")
   }
 }
