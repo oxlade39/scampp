@@ -22,5 +22,14 @@ object FeaturesSpec extends Specification {
                     </mechanisms>
                   </stream:features>)
     }
+    "be equal to any other Features with the same mechanisms" in {
+      val features = new Features("mech1" :: "mech2" :: Nil)
+      features must_==  new Features("mech1" :: "mech2" :: Nil)
+      features must_!=  new Features("mech2" :: "mech1" :: Nil)
+      features must_!=  new Features("mech2" :: Nil)
+      features must_!=  new Features("mech1" :: Nil)
+      features must_!=  new Features(Nil)
+      features must_!=  new Features("mech1" :: "mech2" :: "mech3" :: Nil)
+    }
   }
 }

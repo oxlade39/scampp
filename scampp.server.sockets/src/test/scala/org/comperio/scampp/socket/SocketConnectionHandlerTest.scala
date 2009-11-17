@@ -9,7 +9,7 @@ import java.net.Socket
 import org.specs.mock.{ClassMocker, JMocker}
 import org.specs.Specification
 import org.specs.runner.JUnit4
-import org.comperio.scampp.core.xml.stream.{Features, Stream}
+import org.comperio.scampp.core.xml.stream.{Features, ServerStream}
 
 class SocketConnectionHandlerTest extends JUnit4(SocketConnectionHandlerSpec)
 object SocketConnectionHandlerSpec extends Specification with JMocker with ClassMocker {
@@ -47,7 +47,7 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
       val stream = returnedXml.child(0)
       val features = returnedXml.child(1)
 
-      stream must equalIgnoreSpace(new Stream("id", "scampp.com").toXml)
+      stream must equalIgnoreSpace(new ServerStream("id", "scampp.com").toXml)
       features must equalIgnoreSpace(new Features("DIGEST-MD5" :: "PLAIN" :: Nil).toXml)
     }
   }

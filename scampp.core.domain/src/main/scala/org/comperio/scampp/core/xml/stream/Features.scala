@@ -13,6 +13,12 @@ class Features(val mechanisms: List[String]) extends ScamppXml {
                 <starttls xmlns={Features.tlsNamespace}>{tlsRequiredNode}</starttls>
                 <mechanisms xmlns={Features.mechanismsNamespace}>{mechanismNodes}</mechanisms>
               </stream:features>
+
+
+  override def hashCode = mechanisms.hashCode
+
+  override def equals(obj: Any) = obj.isInstanceOf[Features] &&
+                                  obj.asInstanceOf[Features].mechanisms.equals(mechanisms)
 }
 
 object Features {

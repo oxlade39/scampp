@@ -2,8 +2,8 @@ package org.comperio.scampp.socket
 
 import actors.Actor._
 import actors.{Exit, Actor}
-import core.xml.stream.{Features, Stream}
-import java.io.{OutputStreamWriter, BufferedReader, InputStreamReader}
+import core.xml.stream.{Features, ServerStream}
+import java.io.{OutputStreamWriter}
 import scala.xml.XML
 
 object SocketConnectionHandler extends Actor {
@@ -19,7 +19,7 @@ object SocketConnectionHandler extends Actor {
           xml match {
             case <stream:stream>{body @ _*}</stream:stream> =>
               val writer = new OutputStreamWriter(os)
-              XML.write(writer, new Stream("id", "scampp.com").toXml, "UTF-8", false, null)
+              XML.write(writer, new ServerStream("id", "scampp.com").toXml, "UTF-8", false, null)
               XML.write(writer, new Features(supportedMechanisms).toXml, "UTF-8", false, null)
               writer.flush
               writer.close
