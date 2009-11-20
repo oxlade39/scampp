@@ -41,9 +41,10 @@ object SocketConnectionHandlerSpec extends Specification with JMocker with Class
         one(socket).getOutputStream() will returnValue(os)
       }
       handler ! SocketConnected(socket)
-      Thread.sleep(100)
+      Thread.sleep(1000)
 
-      val returnedXml = XML.loadString("<parent>"+new String(os.toByteArray)+"</parent>")
+      val serverResponse: String = new String(os.toByteArray)
+      val returnedXml = XML.loadString("<parent>"+serverResponse+"</parent>")
       val stream = returnedXml.child(0)
       val features = returnedXml.child(1)
 

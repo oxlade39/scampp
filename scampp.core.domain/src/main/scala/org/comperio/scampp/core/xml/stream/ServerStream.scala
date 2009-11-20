@@ -10,16 +10,15 @@ class ServerStream(id: String, from: String) extends Stream(id,from,null) {
 
   // bad implimentation...i'm tired
   override def hashCode = id.hashCode + from.hashCode
-}
-
-abstract class Stream(val id: String, val from: String, val to: String) extends ScamppXml {
-  val version = "1.0"
 
   override def toXml = <stream:stream xmlns='jabber:client' xmlns:stream={Stream.nameSpace}
                             version={version}
                             id={id}
-                            to={to}
                             from={from} />
+}
+
+abstract class Stream(val id: String, val from: String, val to: String) extends ScamppXml {
+  val version = "1.0"
 }
 
 object Stream {

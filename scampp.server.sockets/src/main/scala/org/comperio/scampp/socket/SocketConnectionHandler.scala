@@ -23,7 +23,11 @@ object SocketConnectionHandler extends Actor {
               XML.write(writer, new Features(supportedMechanisms).toXml, "UTF-8", false, null)
               writer.flush
               writer.close
-            case _ => socket.close
+              "nothing to return"
+            case _ => {
+              println("not matched")
+              socket.close
+            }
           }
           ""
 
