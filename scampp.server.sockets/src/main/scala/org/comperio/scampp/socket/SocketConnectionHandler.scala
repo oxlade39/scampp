@@ -6,6 +6,7 @@ import core.xml.stream.{Features, Stream}
 import java.io.OutputStreamWriter
 import scala.Nil
 import scala.xml.XML
+import org.comperio.scampp.core.xml.stream.{ServerStream, Features}
 
 object SocketConnectionHandler extends Actor {
   val supportedMechanisms = "DIGEST-MD5" :: "PLAIN" :: Nil
@@ -24,7 +25,7 @@ object SocketConnectionHandler extends Actor {
               case <stream:stream>{body@_*}</stream:stream> =>
                 val os = socket.getOutputStream
                 val writer = new OutputStreamWriter(os)
-                XML.write(writer, new Stream("id", "scampp.com").toXml, "UTF-8", false, null)
+                XML.write(writer, new ServerStream("id", "scampp.com").toXml, "UTF-8", false, null)
                 XML.write(writer, new Features(supportedMechanisms).toXml, "UTF-8", false, null)
                 writer.flush
                 writer.close
