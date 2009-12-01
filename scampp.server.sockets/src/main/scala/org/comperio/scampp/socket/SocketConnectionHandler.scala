@@ -10,13 +10,13 @@ import org.comperio.scampp.core.xml.stream.{ServerStream, Features}
 
 object SocketConnectionHandler extends Actor {
   val supportedMechanisms = "DIGEST-MD5" :: "PLAIN" :: Nil
-
-  val steps = <stream:stream /> :: <starttls /> :: Nil
+  val steps =  <stream:stream /> :: <starttls /> :: Nil
 
   def act() {
     loop {
       react {
         case SocketConnected(socket) => {
+          var currentSocket = socket
           for (currentNode <- steps) {
             val array: Array[Byte] = new Array[Byte](1024)
             socket.getInputStream.read(array)
