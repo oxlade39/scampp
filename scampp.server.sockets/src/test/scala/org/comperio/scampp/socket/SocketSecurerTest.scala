@@ -23,33 +23,33 @@ object SocketSecurerSpec extends Specification with JMocker with ClassMocker {
 
   "A socket securer" should {
     "upgrade the socket to a secure socket" in {
-//      val server = new ServerSocket(44700)
-//      val socketFactory = SSLSocketFactory.getDefault
-//      actor {
-//        val serverPlainSocket = server.accept
-//        Thread.sleep(1000)
-//        val sslSocket: Socket = socketFactory.asInstanceOf[SSLSocketFactory].createSocket(serverPlainSocket, "localhost", 44700, true)
-//        val inputStream = sslSocket.getInputStream
-//        val array = new Array[Byte](1024)
-//        inputStream.read(array)
-//        println(new String(array))
-//        val outputStream = serverPlainSocket.getOutputStream
-//        outputStream.write("nice stuff".getBytes)
-//      }
-//      val socket = new Socket("localhost", 44700)
-//      val sslSocket: Socket = socketFactory.asInstanceOf[SSLSocketFactory].createSocket(socket, "localhost", 44700, true)
-//      println("got here?")
-//      val outputStream = sslSocket.getOutputStream()
-//      println("got here?")
-//      outputStream.write("something".getBytes());
-//      outputStream.flush
-//      outputStream.close
-//      Thread.sleep(1500)
-//      val inputStream = sslSocket.getInputStream
-//      val array = new Array[Byte](1024)
-//      println(new String(array))
-//      println("got here?")
-//      server.close
+     val server = new ServerSocket(44700)
+     val socketFactory = SSLSocketFactory.getDefault
+     actor {
+       val serverPlainSocket = server.accept
+       Thread.sleep(1000)
+       val sslSocket: Socket = socketFactory.asInstanceOf[SSLSocketFactory].createSocket(serverPlainSocket, "localhost", 44700, true)
+       val inputStream = sslSocket.getInputStream
+       val array = new Array[Byte](1024)
+       inputStream.read(array)
+       println(new String(array))
+       val outputStream = serverPlainSocket.getOutputStream
+       outputStream.write("nice stuff".getBytes)
+     }
+     val socket = new Socket("localhost", 44700)
+     val sslSocket: Socket = socketFactory.asInstanceOf[SSLSocketFactory].createSocket(socket, "localhost", 44700, true)
+     println("got here?")
+     val outputStream = sslSocket.getOutputStream()
+     println("got here?")
+     outputStream.write("something".getBytes());
+     outputStream.flush
+     outputStream.close
+     Thread.sleep(1500)
+     val inputStream = sslSocket.getInputStream
+     val array = new Array[Byte](1024)
+     println(new String(array))
+     println("got here?")
+     server.close
     }
   }
 }
